@@ -88,7 +88,7 @@ def min_conflicts(csp, n, board, max_steps):
     return False
 
 
-def get_least_conflicts_y(x, n, possible, board):
+def get_least_conflicts_y(x, _, possible, board):
 
     conflict_list, min_count = [possible[0]], board.get_num_conflicts(x, possible[0])
 
@@ -103,7 +103,7 @@ def get_least_conflicts_y(x, n, possible, board):
     return choice(conflict_list)
 
 
-def conflicts(x, y, n, _ , not_possible, board):
+def conflicts(x, _ , n, __ , not_possible, board):
 
     conflict_list, min_count = [], None
 
@@ -123,13 +123,3 @@ def conflicts(x, y, n, _ , not_possible, board):
         return choice(clist)
 
     return choice(conflict_list)
-
-def create_board(n):
-    return [['-']*n for i in range(n)]
-
-def print_board(board):
-    for i in board:
-        for j in i:
-            print(j, end=' ')
-        print()
-    return

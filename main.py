@@ -4,7 +4,7 @@ from random import choice
 
 #option = input("Choose value of n:\n1.10\n2.100\n3.1000\n4.10000\n5.100000\n6.10000000\n")
 n = int(input("choose value of n\n"))
-max_steps = int(input("choose value of max_steps"))
+max_steps = int(input("choose value of max_steps\n"))
 # match option:
 #     case "1":
 #         n = 10
@@ -24,7 +24,6 @@ max_steps = int(input("choose value of max_steps"))
 start_time = time.time()
 board = Board(n)
 variables = [i for i in range(1, n+1)]
-
 constraints = {i: 0 for i in variables}
 y = choice(variables)
 domains = {1: y}
@@ -41,15 +40,18 @@ for i in range(2, n+1):
 csp = CSP(variables, domains, constraints)
 
 if(n <= 100):
-    print('\nInitial Board')
-    b = create_board(n)
+    print('\nInitial')
+    initial_board = [['-']*n for i in range(n)]
     for key, value in csp.domains.items():
         if constraints[key] > 0:
-            b[value-1][key -1] = 'Q' 
+            initial_board[value-1][key -1] = 'Q' 
         else:
-            b[value - 1][key - 1] = 'Q' 
+            initial_board[value - 1][key - 1] = 'Q' 
 
-    print_board(b)
+    for i in initial_board:
+        for j in i:
+            print(j, end=' ')
+        print()
 
 solve_time = time.time()
 assignment = min_conflicts(csp, n, board, max_steps)
@@ -61,13 +63,16 @@ if assignment:
 
     if(n <= 100):
         print('\nSolved')
-        b = create_board(n)
+        solved_board = [['-']*n for i in range(n)]
         for key, value in assignment.domains.items():
-            b[value - 1][key - 1] ='Q' 
+            solved_board[value - 1][key - 1] ='Q' 
 
-        print_board(b)
+        for i in solved_board:
+            for j in i:
+                print(j, end=' ')
+            print()
 
-        #print("Board too big, printing to file")
+        print("printing to file")
     with open("output.txt", "w") as f:
         for i in csp.domains:
             print(i,csp.domains[i], file = f, end = "\n")
