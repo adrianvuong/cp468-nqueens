@@ -4,9 +4,9 @@ class Board:
 
     def __init__(self, n):
         self._n = n
-        self._queen_rows = {i: set() for i in range(1, self._n+1)}
-        self._queen_posdiag = {i: set() for i in range(1, 2 * self._n)}
-        self._queen_negdiag = {i: set() for i in range(1, 2 * self._n)}
+        self._queen_rows = {i: set() for i in range(1, n+1)}
+        self._queen_posdiag = {i: set() for i in range(1, 2 * n)}
+        self._queen_negdiag = {i: set() for i in range(1, 2 * n)}
 
     def set_queen(self, x, y, constraints):
 
@@ -20,7 +20,6 @@ class Board:
         self._queen_negdiag[y+(self._n - x)].add(x)
 
         constraints[x] = len(combined)
-        return
 
     def remove_queen(self, x, y, constraints):
 
@@ -34,7 +33,6 @@ class Board:
         self._queen_negdiag[y+(self._n - x)].remove(x)
 
         constraints[x] = 0
-        return
 
     def get_num_conflicts(self, x, y):
 
@@ -51,12 +49,16 @@ class CSP:
         self.constraints = constraints
 
 
-def min_conflicts(csp, n, board, max_steps=100):
+def min_conflicts(csp, n, board, max_steps):
 
     past_var = {}
     past_queen = None
+    x = 0
 
-    x = 50 if n >= 100 else (n//2)
+    if(n>=100):
+        x = 50
+    else: 
+        n//2
 
     for i in range(1, max_steps+1):
         conflicted = [i for i, j in csp.constraints.items() if j != 0]
@@ -101,13 +103,11 @@ def get_least_conflicts_y(x, n, possible, board):
     return choice(conflict_list)
 
 
-def conflicts(var, v, n, csp, not_possible, board):
+def conflicts(x, y, n, _ , not_possible, board):
 
-    x, y = var, v
     conflict_list, min_count = [], None
 
     for i in range(1, n+1):
-        if i == y: continue
         count = board.get_num_conflicts(x, i)
         if min_count is not None and min_count > count:
             min_count = count
@@ -128,9 +128,8 @@ def create_board(n):
     return [['-']*n for i in range(n)]
 
 def print_board(board):
-    for x in board:
-        for y in x:
-            print(y, end=' ')
+    for i in board:
+        for j in i:
+            print(j, end=' ')
         print()
     return
-
