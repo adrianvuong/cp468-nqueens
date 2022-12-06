@@ -134,10 +134,3 @@ def print_board(board):
         print()
     return
 
-def print_boardtofile(board):
-    with open("output.txt", "w") as f:
-        for x in board:
-            for y in x:
-                f.write(y)
-        f.write("\n")
-    return

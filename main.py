@@ -69,8 +69,9 @@ if assignment:
         print_board(b)
 
         #print("Board too big, printing to file")
-        with open("output.txt", "w") as f:
-            for i in csp.domains:
-                print(i,csp.domains[i], file = f, end = "\n")
+    with open("output.txt", "w") as f:
+        for i in csp.domains:
+            print(i,csp.domains[i], file = f, end = "\n")
+        
 else:
     print('Increase Max Steps to solve.')
